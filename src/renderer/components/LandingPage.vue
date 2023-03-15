@@ -68,6 +68,7 @@
             @current-change="handleCurrentChange">
           </el-pagination>
         </div>
+        <el-button type="primary" @click="notice">消息通知</el-button>
       </div>
     </main>
     <el-dialog title="进度" v-model="dialogVisible" :before-close="handleClose" center width="14%" top="45vh">
@@ -91,6 +92,7 @@ import { useI18n } from "vue-i18n";
 
 import { useTemplateStore } from "@renderer/store/modules/template";
 import TitleBar from "./common/TitleBar.vue";
+import {DesktopMsg} from '@renderer/utils/notification'
 
 const storeTemplate = useTemplateStore();
 
@@ -100,6 +102,13 @@ console.log(`storeTemplate`, storeTemplate.getTest);
 console.log(`storeTemplate`, storeTemplate.getTest1);
 console.log(`storeTemplate`, storeTemplate.$state.testData);
 console.log(__CONFIG__)
+
+function notice() {
+    DesktopMsg({
+        title: '通知标题xxx2',
+        body: '这是一个通知正文1x'
+    })
+}
 
 setTimeout(() => {
   storeTemplate.TEST_ACTION("654321");

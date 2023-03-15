@@ -1,3 +1,4 @@
+<!-- 右上角放大、缩小、关闭 -->
 <template>
   <div class="window-title" v-if="!IsUseSysTitle && isNotMac && !IsWeb">
     <!-- 软件logo预留位置 -->
@@ -32,8 +33,8 @@
       </div>
     </div>
   </div>
-  <div v-else-if="!IsUseSysTitle && !isNotMac" class="window-title">
-  </div>
+  <!-- <div v-else-if="!IsUseSysTitle && !isNotMac" class="window-title">
+  </div> -->
 </template>
 
 <script setup lang="ts">

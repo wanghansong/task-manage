@@ -2,10 +2,10 @@ import { IsUseSysTitle } from "./const";
 import { BrowserWindowConstructorOptions } from "electron";
 
 export const mainWindowConfig: BrowserWindowConstructorOptions = {
-  height: 800,
+  height: 720,
   useContentSize: true,
-  width: 1700,
-  minWidth: 1366,
+  width: 1100,
+  minWidth: 800,
   show: false,
   frame: IsUseSysTitle,
   webPreferences: {
