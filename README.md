@@ -1,62 +1,29 @@
-# electron-vite-template
+# 任务管理
 
-[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/umbrella22/electron-vite-template/tree/strict)
-![GitHub Repo stars](https://img.shields.io/github/stars/umbrella22/electron-vite-template)
-[![vue](https://img.shields.io/badge/vue-3.2.37-brightgreen.svg)](https://github.com/vuejs/vue-next)
-[![vite](https://img.shields.io/badge/vite-3.0.3-brightgreen.svg)](https://github.com/vitejs/vite)
-[![element-ui](https://img.shields.io/badge/element-plus-brightgreen.svg)](https://www.npmjs.org/package/element-plus)
-[![electron](https://img.shields.io/badge/electron-18.3.5-brightgreen.svg)](https://github.com/electron/electron)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/umbrella22/electron-vite-template/blob/master/LICENSE)
+## 功能大纲
+* 日程任务
+    - [ ] 日程
+    - [ ] 四象限
+- [ ] OKR
+- [ ] 笔记
+- [ ] 番茄时钟
+- [ ] 多人协作
 
-# Installation
+### 请确保您的 node 版本大于等于 18.
 
-You can choose to clone the project or fork repository, or download the zip file directly. It is recommended to clone the repository so that you can receive the latest patches.
-
-To run a project, you need to have **node version 16** or higher and **use yarn as your dependency management tool**
-
-[For Chinese Developers](/README_ZH.md)
-
-[![Build Updater Status](https://github.com/umbrella22/electron-vite-template/actions/workflows/Build%20Update.yml/badge.svg)](https://github.com/umbrella22/electron-vite-template/actions/workflows/Build%20Update.yml)
-
-# Build Setup
+#### 如何安装
 
 ```bash
-# Clone this repository
-$ git clone https://github.com/umbrella22/electron-vite-template.git
-# Go into the repository
-$ cd electron-vite-template
-# install dependencies
-$ yarn install
+yarn 或 yarn install
 
-# serve with hot reload at localhost:9080
-$ yarn dev
+# 启动之后，会在9080端口监听
+yarn dev
 
-# build electron application for production
-$ yarn build
-
+# build命令在不同系统环境中，需要的的不一样，需要自己根据自身环境进行配置
+yarn build
 
 ```
 
 ---
 
-# Function list
-
-- Auto update
-- Incremental update
-- Loading animation before startup
-- i18n
-- Incremental update (wait for test)
-
-# Built-in
-
-- [vue-router](https://next.router.vuejs.org/index.html)
-- [pinia](https://pinia.esm.dev/)
-- [electron](http://www.electronjs.org/docs)
-- electron-updater
-- typescript
-- [element-plus](https://element-plus.gitee.io/#/en-US/component/installation)
-
-# Note
-
-- [gitee](https://gitee.com/Zh-Sky/electron-vite-template) is only for domestic users to pull code，from github to synchronize，please visit github for PR
-- **Welcome to Issues and PR**
+# [更新日志](/CHANGELOG.md)
