@@ -8,10 +8,13 @@ import './permission'
 import App from './App.vue'
 import router from './router'
 import { errorHandler } from './error'
+import 'uno.css';
 
 import { i18n } from "./i18n"
 
 import TitleBar from "./components/common/TitleBar.vue"
+import ColorIcon from './components/color-icon/index.vue';
+
 const app = createApp(App)
 const store = createPinia()
 app.use(ElementPlus, { i18n: i18n.global.d })
@@ -22,6 +25,7 @@ errorHandler(app)
 
 // 全局引入 TitleBar 组件
 app.component("TitleBar", TitleBar);
+app.component("ColorIcon", ColorIcon);
 
 app.mount("#app")
 

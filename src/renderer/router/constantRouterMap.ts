@@ -13,7 +13,17 @@ const routes: Array<RouteRecordRaw> = [
                 path: 'daily',
                 name: '日程',
                 component: () => import("@renderer/views/daily/index.vue"),
-            }
+            },
+            {
+                path: 'okr',
+                name: 'OKR',
+                component: () => import("@renderer/views/okr/index.vue"),
+            },
+            {
+                path: 'clock',
+                name: '番茄时钟',
+                component: () => import("@renderer/views/clock/index.vue"),
+            },
         ]
     },
     // { path: '/', name: '总览', component: () => import('@renderer/components/LandingPage.vue') },
