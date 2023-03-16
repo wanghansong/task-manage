@@ -21,8 +21,7 @@ app.whenReady().then(onAppReady)
 app.commandLine.appendSwitch('disable-features', 'OutOfBlinkCors')
 
 app.on('window-all-closed', () => {
-  // 所有平台均为所有窗口关闭就退出软件
-  app.quit()
+  // 退出到后台
 })
 app.on('browser-window-created', () => {
   console.log('window-created')

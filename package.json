@@ -1,9 +1,9 @@
 {
-  "name": "electron-vite-template",
+  "name": "task-manage",
   "version": "1.0.0",
   "main": "./dist/electron/main/main.js",
-  "author": "sky <https://github.com/umbrella22>",
-  "description": "electron-vite-template project",
+  "author": "wanghansong<https://github.com/wanghansong>",
+  "description": "日程管理",
   "license": "MIT",
   "encryptionLevel": 0,
   "scripts": {

@@ -11,8 +11,8 @@
   "beforePack": ".electron-vite/beforePack.js",
 
 
-  "productName": "electron-vite-template",
-  "appId": "org.sky.electron-vite-template",
+  "productName": "task-manage",
+  "appId": "org.wanghansong.task-manage",
   "directories": {
     "output": "build"
   },

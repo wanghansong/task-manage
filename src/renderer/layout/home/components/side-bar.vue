@@ -14,7 +14,7 @@
             <el-menu :default-active="menuList[0].path" router>
                 <template v-for="menuItem in menuList" :key="menuItem.path">
                     <el-menu-item :index="menuItem.path">
-                        <i :class="['mr-8px', 'iconfont', menuItem.icon]"></i>
+                        <i :class="['mr-8px', 'text-20px', 'iconfont', menuItem.icon]"></i>
                         <span class="menu-title">{{ menuItem.title }}</span>
                     </el-menu-item>
                 </template>
@@ -39,6 +39,7 @@ const userInfo = ref({
     }
     .menu-container {
         :deep(.el-menu) {
+            border-right: none;
             .el-menu-item {
                 &.is-active {
                     background-color: var(--el-color-primary-light-9);

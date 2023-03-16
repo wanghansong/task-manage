@@ -112,7 +112,7 @@ class MainInit {
     /**
      * 新的gpu崩溃检测，详细参数详见：http://www.electronjs.org/docs/api/app
      * @returns {void}
-     * @author zmr (umbrella22)
+     * @author zmr (wanghansong)
      * @date 2020-11-27
      */
     app.on("child-process-gone", (event, details) => {

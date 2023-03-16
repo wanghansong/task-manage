@@ -1,5 +1,6 @@
 import { IsUseSysTitle } from "./const";
 import { BrowserWindowConstructorOptions } from "electron";
+import path from "path";
 
 export const mainWindowConfig: BrowserWindowConstructorOptions = {
   height: 720,
