@@ -78,54 +78,54 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref, onMounted, toRaw } from 'vue'
-import { useI18n } from 'vue-i18n'
-const { ipcRenderer } = require("electron")
+import { ref, onMounted, toRaw } from 'vue';
+import { useI18n } from 'vue-i18n';
+const { ipcRenderer } = require('electron');
 
-const selName = ref('')
-const printers = ref<Electron.PrinterInfo[]>([])
-const silent = ref(false)
-const printBackground = ref(false)
-const color = ref(true)
-const marginTypes = ref(['default', 'none', 'printableArea', 'custom'])
+const selName = ref('');
+const printers = ref<Electron.PrinterInfo[]>([]);
+const silent = ref(false);
+const printBackground = ref(false);
+const color = ref(true);
+const marginTypes = ref(['default', 'none', 'printableArea', 'custom']);
 const margins = ref({
-  marginType: 'default',
-  top: 0,
-  bottom: 0,
-  left: 0,
-  right: 0
-})
-const pageSizeString = ref<string>('A4')
-const pageSizeOptions = ref(['A3', 'A4', 'A5', 'Legal', 'Letter', 'Tabloid'])
-const pageSizeObject = ref({ width: 210000, height: 297000 })
-const selPageSizeType = ref(0) // 0 string  1 Size
+    marginType: 'default',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+});
+const pageSizeString = ref<string>('A4');
+const pageSizeOptions = ref(['A3', 'A4', 'A5', 'Legal', 'Letter', 'Tabloid']);
+const pageSizeObject = ref({ width: 210000, height: 297000 });
+const selPageSizeType = ref(0); // 0 string  1 Size
 onMounted(async () => {
-  // 获取打印机列表
-  printers.value = await ipcRenderer.invoke('getPrinters')
-  if (printers.value.length) {
-    const defaultItem = printers.value.find(v => v.isDefault)
-    if (defaultItem) {
-      selName.value = defaultItem.name
-    } else {
-      selName.value = printers.value[0].name
+    // 获取打印机列表
+    printers.value = await ipcRenderer.invoke('getPrinters');
+    if (printers.value.length) {
+        const defaultItem = printers.value.find(v => v.isDefault);
+        if (defaultItem) {
+            selName.value = defaultItem.name;
+        } else {
+            selName.value = printers.value[0].name;
+        }
     }
-  }
-})
+});
 
-const { t } = useI18n()
+const { t } = useI18n();
 
 async function print() {
-  if (selName.value) {
-    const printRes = await ipcRenderer.invoke('printHandlePrint', {
-      silent: silent.value,
-      deviceName: selName.value,
-      printBackground: printBackground.value,
-      color: color.value,
-      margins: toRaw(margins.value),
-      pageSize: selPageSizeType.value === 0 ? toRaw(pageSizeString.value) : toRaw(pageSizeObject.value)
-    })
-    console.info(printRes)
-  }
+    if (selName.value) {
+        const printRes = await ipcRenderer.invoke('printHandlePrint', {
+            silent: silent.value,
+            deviceName: selName.value,
+            printBackground: printBackground.value,
+            color: color.value,
+            margins: toRaw(margins.value),
+            pageSize: selPageSizeType.value === 0 ? toRaw(pageSizeString.value) : toRaw(pageSizeObject.value),
+        });
+        console.info(printRes);
+    }
 }
 
 </script>

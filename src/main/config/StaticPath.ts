@@ -1,51 +1,51 @@
 // 这里定义了静态文件路径的位置
-import { join } from 'path'
-import config from '@config/index'
-import { app } from 'electron'
+import { join } from 'path';
+import config from '@config/index';
+import { app } from 'electron';
 import { URL } from 'url';
 const isDev = process.env.NODE_ENV === 'development';
 class StaticPath {
-  constructor() {
-    const basePath = isDev ? join(__dirname, '..', '..', '..') : join(app.getAppPath(), '..', '..');
-    this.__updateFolder = join(basePath, `${config.HotUpdateFolder}`)
-    if (isDev) {
-      this.__static = join(basePath, 'static');
-      this.__lib = join(basePath, `rootLib`, `${process.platform}`, `${process.arch}`);
-      this.__common = join(basePath, 'rootLib', 'common');
-    } else {
-      this.__static = join(__dirname, '..', 'renderer');
-      this.__lib = basePath;
-      this.__common = basePath;
+    constructor() {
+        const basePath = isDev ? join(__dirname, '..', '..', '..') : join(app.getAppPath(), '..', '..');
+        this.__updateFolder = join(basePath, `${config.HotUpdateFolder}`);
+        if (isDev) {
+            this.__static = join(basePath, 'static');
+            this.__lib = join(basePath, 'rootLib', `${process.platform}`, `${process.arch}`);
+            this.__common = join(basePath, 'rootLib', 'common');
+        } else {
+            this.__static = join(__dirname, '..', 'renderer');
+            this.__lib = basePath;
+            this.__common = basePath;
+        }
     }
-  }
-  /**
+    /**
    * 静态文件路径 渲染进程目录下
    *
    * @type {string}
    * @memberof StaticPath
    */
-  __static: string;
-  /**
+    __static: string;
+    /**
    * dll文件夹及其他os平台相关的文件路径
    *
    * @type {string}
    * @memberof StaticPath
    */
-  __lib: string;
-  /**
+    __lib: string;
+    /**
    * 与os无关的资源
    *
    * @type {string}
    * @memberof StaticPath
    */
-  __common: string;
-  /**
+    __common: string;
+    /**
    * 增量更新文件夹
    *
    * @type {string}
    * @memberof StaticPath
    */
-  __updateFolder: string;
+    __updateFolder: string;
 }
 const staticPath = new StaticPath();
 /**
@@ -57,25 +57,25 @@ const staticPath = new StaticPath();
  * @param {string} [search=""] search值
  * @return {*}  {string} 地址
  */
-function getUrl(devPath: string, proPath: string, hash: string = "", search: string = ""): string {
-  const url = isDev ? new URL(`http://localhost:${process.env.PORT}`) : new URL('file://');
-  url.pathname = isDev ? devPath : proPath;
-  url.hash = hash;
-  url.search = search;
-  return url.href;
+function getUrl(devPath: string, proPath: string, hash = '', search = ''): string {
+    const url = isDev ? new URL(`http://localhost:${process.env.PORT}`) : new URL('file://');
+    url.pathname = isDev ? devPath : proPath;
+    url.hash = hash;
+    url.search = search;
+    return url.href;
 }
-export const winURL = getUrl("", join(__dirname, '..', 'renderer', 'index.html'));
-export const loadingURL = getUrl("/loader.html", `${staticPath.__static}/loader.html`);
-export const preloadURL = getUrl("/preload.html", `${staticPath.__static}/preload.html`);
-export const printURL = getUrl("", join(__dirname, '..', 'renderer', 'index.html'), "#/Print");
-export const preloadPath = isDev ? join(app.getAppPath(), "..", "preload.js") : join(app.getAppPath(), "dist", "electron", "preload.js");
-export const lib = staticPath.__lib
-export const common = staticPath.__common
-export const updateFolder = staticPath.__updateFolder
-export const staticPaths = getUrl('', staticPath.__static)
+export const winURL = getUrl('', join(__dirname, '..', 'renderer', 'index.html'));
+export const loadingURL = getUrl('/loader.html', `${staticPath.__static}/loader.html`);
+export const preloadURL = getUrl('/preload.html', `${staticPath.__static}/preload.html`);
+export const printURL = getUrl('', join(__dirname, '..', 'renderer', 'index.html'), '#/Print');
+export const preloadPath = isDev ? join(app.getAppPath(), '..', 'preload.js') : join(app.getAppPath(), 'dist', 'electron', 'preload.js');
+export const lib = staticPath.__lib;
+export const common = staticPath.__common;
+export const updateFolder = staticPath.__updateFolder;
+export const staticPaths = getUrl('', staticPath.__static);
 
 // process.env 修改
 for (const key in staticPath) {
-  process.env[key] = staticPath[key];
+    process.env[key] = staticPath[key];
 }
 

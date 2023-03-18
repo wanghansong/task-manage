@@ -32,67 +32,67 @@
 </template>
 
 <script setup lang="ts">
-import { onUnmounted, ref, watch } from "vue";
-const { platform } = require("os");
-const { ipcRenderer, shell } = require("electron");
+import { onUnmounted, ref, watch } from 'vue';
+const { platform } = require('os');
+const { ipcRenderer, shell } = require('electron');
 const props = defineProps({
-  modelValue: Boolean,
+    modelValue: Boolean,
 });
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(['update:modelValue']);
 const visible = ref(false);
 
 watch(
-  () => props.modelValue,
-  () => {
-    visible.value = props.modelValue;
-  }
+    () => props.modelValue,
+    () => {
+        visible.value = props.modelValue;
+    },
 );
 const colors: Ref<string[]> | string = ref([
-  { color: "#f56c6c", percentage: 20 },
-  { color: "#e6a23c", percentage: 40 },
-  { color: "#6f7ad3", percentage: 60 },
-  { color: "#1989fa", percentage: 80 },
-  { color: "#5cb87a", percentage: 100 },
+    { color: '#f56c6c', percentage: 20 },
+    { color: '#e6a23c', percentage: 40 },
+    { color: '#6f7ad3', percentage: 60 },
+    { color: '#1989fa', percentage: 80 },
+    { color: '#5cb87a', percentage: 100 },
 ]);
 const percentage = ref(0);
 const progressStaus = ref(null);
-const winOS = platform().includes("win32");
-const title = ref("强制更新");
-const message = ref("由于当前软件版本过低，为了保证您的使用，已激活强制更新");
-const killButton = ref("退出软件");
-ipcRenderer.on("download-progress", (event, arg) => {
-  percentage.value = Number(arg);
+const winOS = platform().includes('win32');
+const title = ref('强制更新');
+const message = ref('由于当前软件版本过低，为了保证您的使用，已激活强制更新');
+const killButton = ref('退出软件');
+ipcRenderer.on('download-progress', (event, arg) => {
+    percentage.value = Number(arg);
 });
-ipcRenderer.on("download-error", (event, arg) => {
-  if (arg) {
-    progressStaus.value = "exception";
-    percentage.value = 40;
-    colors.value = "#d81e06";
-  }
+ipcRenderer.on('download-error', (event, arg) => {
+    if (arg) {
+        progressStaus.value = 'exception';
+        percentage.value = 40;
+        colors.value = '#d81e06';
+    }
 });
-ipcRenderer.on("download-done", (event, age) => {
-  filePath.value = age.filePath;
-  progressStaus.value = "success";
-  message.value = "更新下载完成！";
+ipcRenderer.on('download-done', (event, age) => {
+    filePath.value = age.filePath;
+    progressStaus.value = 'success';
+    message.value = '更新下载完成！';
 });
 
-const filePath = ref("");
+const filePath = ref('');
 const openfile = () => {
-  shell.showItemInFolder(filePath.value);
+    shell.showItemInFolder(filePath.value);
 };
 const killSys = () => {
-  ipcRenderer.invoke("app-close");
+    ipcRenderer.invoke('app-close');
 };
 // 当且仅当为开发模式才可以关闭
 const closeMask = () => {
-  if (process.env.NODE_ENV === "development") {
-    emits("update:modelValue", false);
-  }
+    if (process.env.NODE_ENV === 'development') {
+        emits('update:modelValue', false);
+    }
 };
 onUnmounted(() => {
-  ipcRenderer.removeAllListeners("download-done");
-  ipcRenderer.removeAllListeners("download-progress");
-  ipcRenderer.removeAllListeners("download-error");
+    ipcRenderer.removeAllListeners('download-done');
+    ipcRenderer.removeAllListeners('download-progress');
+    ipcRenderer.removeAllListeners('download-error');
 });
 </script>
 <style rel="stylesheet/scss" lang="scss" scoped>

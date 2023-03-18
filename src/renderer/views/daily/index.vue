@@ -6,7 +6,7 @@
 <script lang='ts' setup>
 import { ref } from 'vue';
 
-const test = ref(1)
+const test = ref(1);
 
 </script>
 <style scoped lang="scss">

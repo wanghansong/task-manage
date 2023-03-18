@@ -1,8 +1,8 @@
-export const UseStartupChart: boolean = true;
-export const IsUseSysTitle: boolean = false;
-export const BuiltInServerPort: number = 25565;
-export const hotPublishUrl: string =
-  "http://wanghansong.github.io/task-manage";
-export const hotPublishConfigName: string = "update-config";
-export const openDevTools: boolean = false;
-export const DisableF12: boolean = true;
+export const UseStartupChart = true;
+export const IsUseSysTitle = false;
+export const BuiltInServerPort = 25565;
+export const hotPublishUrl =
+  'http://wanghansong.github.io/task-manage';
+export const hotPublishConfigName = 'update-config';
+export const openDevTools = false;
+export const DisableF12 = true;

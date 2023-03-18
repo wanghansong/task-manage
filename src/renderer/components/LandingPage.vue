@@ -81,261 +81,261 @@
 </template>
 
 <script setup lang="ts">
-import SystemInformation from "./LandingPage/SystemInformation.vue";
-import UpdateProgress from "./updataProgress/index.vue";
-import { message } from "@renderer/api/login";
-import logo from "@renderer/assets/logo.png";
-import { ElMessage, ElMessageBox } from "element-plus";
-import { onUnmounted, Ref, ref } from "vue";
-import { i18n, setLanguage } from "@renderer/i18n";
-import { useI18n } from "vue-i18n";
+import SystemInformation from './LandingPage/SystemInformation.vue';
+import UpdateProgress from './updataProgress/index.vue';
+import { message } from '@renderer/api/login';
+import logo from '@renderer/assets/logo.png';
+import { ElMessage, ElMessageBox } from 'element-plus';
+import { onUnmounted, Ref, ref } from 'vue';
+import { i18n, setLanguage } from '@renderer/i18n';
+import { useI18n } from 'vue-i18n';
 
-import { useTemplateStore } from "@renderer/store/modules/template";
-import TitleBar from "./common/TitleBar.vue";
-import {DesktopMsg} from '@renderer/utils/notification'
+import { useTemplateStore } from '@renderer/store/modules/template';
+import TitleBar from './common/TitleBar.vue';
+import {DesktopMsg} from '@renderer/utils/notification';
 
 const storeTemplate = useTemplateStore();
 
 const { t } = useI18n();
 
-console.log(`storeTemplate`, storeTemplate.getTest);
-console.log(`storeTemplate`, storeTemplate.getTest1);
-console.log(`storeTemplate`, storeTemplate.$state.testData);
-console.log(__CONFIG__)
+console.log('storeTemplate', storeTemplate.getTest);
+console.log('storeTemplate', storeTemplate.getTest1);
+console.log('storeTemplate', storeTemplate.$state.testData);
+console.log(__CONFIG__);
 
 function notice() {
     DesktopMsg({
         title: '通知标题xxx2',
-        body: '这是一个通知正文1x'
-    })
+        body: '这是一个通知正文1x',
+    });
 }
 
 setTimeout(() => {
-  storeTemplate.TEST_ACTION("654321");
-  console.log(`storeTemplate`, storeTemplate.getTest1);
+    storeTemplate.TEST_ACTION('654321');
+    console.log('storeTemplate', storeTemplate.getTest1);
 }, 1000);
 
-const { ipcRenderer, shell } = require("electron");
+const { ipcRenderer, shell } = require('electron');
 
 let percentage = ref(0);
 let colors: Ref<ColorInfo[]> | Ref<string> = ref([
-  { color: "#f56c6c", percentage: 20 },
-  { color: "#e6a23c", percentage: 40 },
-  { color: "#6f7ad3", percentage: 60 },
-  { color: "#1989fa", percentage: 80 },
-  { color: "#5cb87a", percentage: 100 },
+    { color: '#f56c6c', percentage: 20 },
+    { color: '#e6a23c', percentage: 40 },
+    { color: '#6f7ad3', percentage: 60 },
+    { color: '#1989fa', percentage: 80 },
+    { color: '#5cb87a', percentage: 100 },
 ]);
 
 let dialogVisible = ref(false);
 let progressStaus = ref(null);
 let showForcedUpdate = ref(false);
-let filePath = ref("");
-let updateStatus = ref("");
+let filePath = ref('');
+let updateStatus = ref('');
 
 let elPageSize = ref(100);
 let elCPage = ref(1);
 
-ipcRenderer.invoke("get-static-path").then((res) => {
-  console.log("staticPath", res);
+ipcRenderer.invoke('get-static-path').then((res) => {
+    console.log('staticPath', res);
 });
 
 function changeLanguage() {
-  setLanguage(i18n.global.locale.value === "zh-cn" ? "en" : "zh-cn");
+    setLanguage(i18n.global.locale.value === 'zh-cn' ? 'en' : 'zh-cn');
 }
 
 function printDemo() {
-  ipcRenderer.invoke("openPrintDemoWindow");
+    ipcRenderer.invoke('openPrintDemoWindow');
 }
 
 function handleSizeChange(val: number) {
-  elPageSize.value = val;
+    elPageSize.value = val;
 }
 
 function handleCurrentChange(val: number) {
-  elCPage.value = val;
+    elCPage.value = val;
 }
 
 function crash() {
-  process.crash();
+    process.crash();
 }
 
 function openNewWin() {
-  let data = {
-    url: "/form/index",
-  };
-  ipcRenderer.invoke("open-win", data);
+    let data = {
+        url: '/form/index',
+    };
+    ipcRenderer.invoke('open-win', data);
 }
 function getMessage() {
-  message().then((res) => {
-    ElMessageBox.alert(res.data, "提示", {
-      confirmButtonText: "确定",
+    message().then((res) => {
+        ElMessageBox.alert(res.data, '提示', {
+            confirmButtonText: '确定',
+        });
     });
-  });
 }
 function StopServer() {
-  ipcRenderer.invoke("stop-server").then((res) => {
-    ElMessage({
-      type: "success",
-      message: "已关闭",
+    ipcRenderer.invoke('stop-server').then((res) => {
+        ElMessage({
+            type: 'success',
+            message: '已关闭',
+        });
     });
-  });
 }
 function StartServer() {
-  ipcRenderer.invoke("start-server").then((res) => {
-    if (res) {
-      ElMessage({
-        type: "success",
-        message: res,
-      });
-    }
-  });
+    ipcRenderer.invoke('start-server').then((res) => {
+        if (res) {
+            ElMessage({
+                type: 'success',
+                message: res,
+            });
+        }
+    });
 }
 // 获取electron方法
 function open() { }
 function CheckUpdate(data) {
-  switch (data) {
-    case "one":
-      ipcRenderer.invoke("check-update");
-      break;
-    case "two":
-      // TODO 测试链接
-      console.log('test Url')
-      // ipcRenderer
-      //   .invoke(
-      //     "start-download",
-      //     "https://az764295.vo.msecnd.net/stable/6261075646f055b99068d3688932416f2346dd3b/VSCodeUserSetup-x64-1.73.1.exe"
-      //   )
-      //   .then(() => {
-      //     dialogVisible.value = true;
-      //   });
-      break;
-    case "three":
-      ipcRenderer.invoke("hot-update");
-      break;
-    case "threetest":
-      alert("更新后再次点击没有提示");
-      ipcRenderer.invoke("hot-update-test");
-      break;
-    case "four":
-      showForcedUpdate.value = true;
-      break;
+    switch (data) {
+    case 'one':
+        ipcRenderer.invoke('check-update');
+        break;
+    case 'two':
+        // TODO 测试链接
+        console.log('test Url');
+        // ipcRenderer
+        //   .invoke(
+        //     "start-download",
+        //     "https://az764295.vo.msecnd.net/stable/6261075646f055b99068d3688932416f2346dd3b/VSCodeUserSetup-x64-1.73.1.exe"
+        //   )
+        //   .then(() => {
+        //     dialogVisible.value = true;
+        //   });
+        break;
+    case 'three':
+        ipcRenderer.invoke('hot-update');
+        break;
+    case 'threetest':
+        alert('更新后再次点击没有提示');
+        ipcRenderer.invoke('hot-update-test');
+        break;
+    case 'four':
+        showForcedUpdate.value = true;
+        break;
     default:
-      break;
-  }
+        break;
+    }
 }
 function openPreloadWindow() {
-  ElMessageBox.alert(t("home.openPreloadWindowError.content"), t("home.openPreloadWindowError.title"), {
-    confirmButtonText: t("home.openPreloadWindowError.confirm"),
-    callback: (action) => { },
-  });
+    ElMessageBox.alert(t('home.openPreloadWindowError.content'), t('home.openPreloadWindowError.title'), {
+        confirmButtonText: t('home.openPreloadWindowError.confirm'),
+        callback: (action) => { },
+    });
 }
 
 function handleClose() {
-  dialogVisible.value = false;
+    dialogVisible.value = false;
 }
-ipcRenderer.on("download-progress", (event, arg) => {
-  console.log(arg);
-  percentage.value = Number(arg);
+ipcRenderer.on('download-progress', (event, arg) => {
+    console.log(arg);
+    percentage.value = Number(arg);
 });
-ipcRenderer.on("download-error", (event, arg) => {
-  if (arg) {
-    progressStaus = "exception";
-    percentage.value = 40;
-    colors.value = "#d81e06";
-  }
+ipcRenderer.on('download-error', (event, arg) => {
+    if (arg) {
+        progressStaus.value = 'exception';
+        percentage.value = 40;
+        colors.value = '#d81e06';
+    }
 });
-ipcRenderer.on("download-paused", (event, arg) => {
-  if (arg) {
-    progressStaus = "warning";
-    ElMessageBox.alert("下载由于未知原因被中断！", "提示", {
-      confirmButtonText: "重试",
-      callback: (action) => {
-        ipcRenderer.invoke("start-download");
-      },
+ipcRenderer.on('download-paused', (event, arg) => {
+    if (arg) {
+        progressStaus.value = 'warning';
+        ElMessageBox.alert('下载由于未知原因被中断！', '提示', {
+            confirmButtonText: '重试',
+            callback: (action) => {
+                ipcRenderer.invoke('start-download');
+            },
+        });
+    }
+});
+ipcRenderer.on('download-done', (event, age) => {
+    filePath.value = age.filePath;
+    progressStaus.value = 'success';
+    ElMessageBox.alert('更新下载完成！', '提示', {
+        confirmButtonText: '确定',
+        callback: (action) => {
+            shell.openPath(filePath.value);
+        },
     });
-  }
-});
-ipcRenderer.on("download-done", (event, age) => {
-  filePath.value = age.filePath;
-  progressStaus = "success";
-  ElMessageBox.alert("更新下载完成！", "提示", {
-    confirmButtonText: "确定",
-    callback: (action) => {
-      shell.openPath(filePath.value);
-    },
-  });
 });
 // electron-updater的更新监听
-ipcRenderer.on("UpdateMsg", (event, age) => {
-  switch (age.state) {
+ipcRenderer.on('UpdateMsg', (event, age) => {
+    switch (age.state) {
     case -1:
-      const msgdata = {
-        title: "发生错误",
-        message: age.msg,
-      };
-      dialogVisible.value = false;
-      ipcRenderer.invoke("open-errorbox", msgdata);
-      break;
+        const msgdata = {
+            title: '发生错误',
+            message: age.msg,
+        };
+        dialogVisible.value = false;
+        ipcRenderer.invoke('open-errorbox', msgdata);
+        break;
     case 0:
-      ElMessage("正在检查更新");
-      break;
+        ElMessage('正在检查更新');
+        break;
     case 1:
-      ElMessage({
-        type: "success",
-        message: "已检查到新版本，开始下载",
-      });
-      dialogVisible.value = true;
-      break;
+        ElMessage({
+            type: 'success',
+            message: '已检查到新版本，开始下载',
+        });
+        dialogVisible.value = true;
+        break;
     case 2:
-      ElMessage({ type: "success", message: "无新版本" });
-      break;
+        ElMessage({ type: 'success', message: '无新版本' });
+        break;
     case 3:
-      percentage = age.msg.percent.toFixed(1);
-      break;
+        percentage.value = age.msg.percent.toFixed(1);
+        break;
     case 4:
-      progressStaus = "success";
-      ElMessageBox.alert("更新下载完成！", "提示", {
-        confirmButtonText: "确定",
-        callback: (action) => {
-          ipcRenderer.invoke("confirm-update");
-        },
-      });
-      break;
+        progressStaus.value = 'success';
+        ElMessageBox.alert('更新下载完成！', '提示', {
+            confirmButtonText: '确定',
+            callback: (action) => {
+                ipcRenderer.invoke('confirm-update');
+            },
+        });
+        break;
     default:
-      break;
-  }
+        break;
+    }
 });
-ipcRenderer.on("hot-update-status", (event, msg) => {
-  switch (msg.status) {
-    case "downloading":
-      ElMessage("正在下载");
-      break;
-    case "moving":
-      ElMessage("正在移动文件");
-      break;
-    case "finished":
-      ElMessage.success("成功,请重启");
-      break;
-    case "failed":
-      ElMessage.error(msg.message.message);
-      break;
+ipcRenderer.on('hot-update-status', (event, msg) => {
+    switch (msg.status) {
+    case 'downloading':
+        ElMessage('正在下载');
+        break;
+    case 'moving':
+        ElMessage('正在移动文件');
+        break;
+    case 'finished':
+        ElMessage.success('成功,请重启');
+        break;
+    case 'failed':
+        ElMessage.error(msg.message.message);
+        break;
 
     default:
-      break;
-  }
-  console.log(msg);
-  updateStatus = msg.status;
+        break;
+    }
+    console.log(msg);
+    updateStatus.value = msg.status;
 });
 onUnmounted(() => {
-  console.log("销毁了哦");
-  ipcRenderer.removeAllListeners("confirm-message");
-  ipcRenderer.removeAllListeners("download-done");
-  ipcRenderer.removeAllListeners("download-paused");
-  ipcRenderer.removeAllListeners("confirm-stop");
-  ipcRenderer.removeAllListeners("confirm-start");
-  ipcRenderer.removeAllListeners("confirm-download");
-  ipcRenderer.removeAllListeners("download-progress");
-  ipcRenderer.removeAllListeners("download-error");
+    console.log('销毁了哦');
+    ipcRenderer.removeAllListeners('confirm-message');
+    ipcRenderer.removeAllListeners('download-done');
+    ipcRenderer.removeAllListeners('download-paused');
+    ipcRenderer.removeAllListeners('confirm-stop');
+    ipcRenderer.removeAllListeners('confirm-start');
+    ipcRenderer.removeAllListeners('confirm-download');
+    ipcRenderer.removeAllListeners('download-progress');
+    ipcRenderer.removeAllListeners('download-error');
 });
 </script>
 

@@ -1,10 +1,10 @@
-import { hotPublishUrl, hotPublishConfigName } from "../config/const";
+import { hotPublishUrl, hotPublishConfigName } from '../config/const';
 interface hotPublish {
   url: string;
   configName: string;
 }
 
 export const hotPublishConfig: hotPublish = {
-  url: hotPublishUrl,
-  configName: hotPublishConfigName,
+    url: hotPublishUrl,
+    configName: hotPublishConfigName,
 };

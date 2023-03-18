@@ -3,7 +3,7 @@
     <div class="sidebar-container">
         <div style="-webkit-app-region: drag" class="h-40px w-full"></div>
         <div class="flex items-center cursor-pointer header">
-            <el-avatar :size="40" src="">
+            <el-avatar :size="40" :src="userInfo.avatar">
                 <img
                     src="~@renderer/assets/empty/default-avatar.png"
                 />
@@ -25,11 +25,12 @@
 
 <script lang='ts' setup>
 import { ref } from 'vue';
-import { menuList } from '../data'
+import { menuList } from '../data';
 
 const userInfo = ref({
-    nameZh: 'wanghansongwanghansongwanghansongwanghansong'
-})
+    nameZh: 'wanghansongwanghansongwanghansongwanghansong',
+    avatar: '',
+});
 
 </script>
 <style scoped lang="scss">

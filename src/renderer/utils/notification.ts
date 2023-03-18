@@ -20,10 +20,10 @@ interface DesktopMsgProps {
  **/
 
 export function DesktopMsg (option: DesktopMsgProps): Promise<boolean> {
-  const msgfunc = new window.Notification(option.title, option)
-  return new Promise((resolve) => {
-    msgfunc.onclick = () => {
-      resolve(true)
-    }
-  })
+    const msgfunc = new window.Notification(option.title, option);
+    return new Promise((resolve) => {
+        msgfunc.onclick = () => {
+            resolve(true);
+        };
+    });
 }

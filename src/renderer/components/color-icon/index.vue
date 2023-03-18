@@ -7,13 +7,13 @@
 
 <script lang='ts' setup>
 interface Props {
-    icon: String,
-    size?: Number,
+    icon: string,
+    size?: number,
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    size: () => 24
-})
+    size: () => 24,
+});
 
 </script>
 <style lang='less' scoped>

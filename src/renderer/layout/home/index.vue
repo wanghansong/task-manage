@@ -1,22 +1,21 @@
 <!-- 主页导航 -->
 <template>
     <div class="page-layout">
-		<div class="page-layout__left">
-			<SideBar />
-		</div>
+    <div class="page-layout__left">
+        <SideBar />
+    </div>
 
-		<div class="page-layout__right">
-            <router-view v-slot="{ Component }">
-                <component :is="Component" />
-            </router-view>
-		</div>
-	</div>
-   
+    <div class="page-layout__right">
+        <router-view v-slot="{ Component }">
+            <component :is="Component" />
+        </router-view>
+    </div>
+</div>
+
 </template>
 
 <script lang='ts' setup>
-import SideBar from './components/side-bar.vue'
-
+import SideBar from './components/side-bar.vue';
 
 </script>
 <style scoped lang="scss">
