@@ -16,4 +16,5 @@ import TitleBar from './components/common/TitleBar.vue';
 const i18nt = computed(() => i18n.global.messages.value[i18n.global.locale.value].$el);
 </script>
 
-<style></style>
+<style>
+</style>
