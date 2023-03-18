@@ -1,15 +1,17 @@
 import setIpc from './ipcMain';
 import { IsUseSysTitle, UseStartupChart } from '../config/const';
 import menuconfig from '../config/menu';
-import { app, BrowserWindow, Menu, dialog } from 'electron';
+import { app, BrowserWindow, Menu, dialog, Tray } from 'electron';
 import { winURL, loadingURL } from '../config/StaticPath';
 import { mainWindowConfig } from '../config/windowsConfig';
+import path from 'path';
 
 class MainInit {
     public winURL = '';
     public shartURL = '';
     public loadWindow: BrowserWindow = null;
     public mainWindow: BrowserWindow = null;
+    public willQuitApp = false;
 
     constructor () {
         this.winURL = winURL;
@@ -32,6 +34,9 @@ class MainInit {
 
     // 主窗口函数
     createMainWindow () {
+        if(this.mainWindow) {
+            return;
+        }
         this.mainWindow = new BrowserWindow({
             titleBarStyle: IsUseSysTitle ? 'default' : 'hidden',
             ...Object.assign(mainWindowConfig, {}),
@@ -55,48 +60,6 @@ class MainInit {
             if (UseStartupChart) this.loadWindow.destroy();
         });
 
-        // 当确定渲染进程卡死时，分类型进行告警操作
-        app.on('render-process-gone', (event, webContents, details) => {
-            const message = {
-                title: '',
-                buttons: [],
-                message: '',
-            };
-            switch (details.reason) {
-            case 'crashed':
-                message.title = '警告';
-                message.buttons = ['确定', '退出'];
-                message.message = '图形化进程崩溃，是否进行软重启操作？';
-                break;
-            case 'killed':
-                message.title = '警告';
-                message.buttons = ['确定', '退出'];
-                message.message =
-            '由于未知原因导致图形化进程被终止，是否进行软重启操作？';
-                break;
-            case 'oom':
-                message.title = '警告';
-                message.buttons = ['确定', '退出'];
-                message.message = '内存不足，是否软重启释放内存？';
-                break;
-
-            default:
-                break;
-            }
-            dialog
-                .showMessageBox(this.mainWindow, {
-                    type: 'warning',
-                    title: message.title,
-                    buttons: message.buttons,
-                    message: message.message,
-                    noLink: true,
-                })
-                .then((res) => {
-                    if (res.response === 0) this.mainWindow.reload();
-                    else this.mainWindow.close();
-                });
-        });
-
         // 不知道什么原因，反正就是这个窗口里的页面触发了假死时执行
         this.mainWindow.on('unresponsive', () => {
             dialog
@@ -113,67 +76,54 @@ class MainInit {
                 });
         });
 
-        /**
-     * 新的gpu崩溃检测，详细参数详见：http://www.electronjs.org/docs/api/app
-     * @returns {void}
-     * @author zmr (wanghansong)
-     * @date 2020-11-27
-     */
-        app.on('child-process-gone', (event, details) => {
-            const message = {
-                title: '',
-                buttons: [],
-                message: '',
-            };
-            switch (details.type) {
-            case 'GPU':
-                switch (details.reason) {
-                case 'crashed':
-                    message.title = '警告';
-                    message.buttons = ['确定', '退出'];
-                    message.message = '硬件加速进程已崩溃，是否关闭硬件加速并重启？';
-                    break;
-                case 'killed':
-                    message.title = '警告';
-                    message.buttons = ['确定', '退出'];
-                    message.message =
-                '硬件加速进程被意外终止，是否关闭硬件加速并重启？';
-                    break;
-                default:
-                    break;
-                }
-                break;
-
-            default:
-                break;
-            }
-            dialog
-                .showMessageBox(this.mainWindow, {
-                    type: 'warning',
-                    title: message.title,
-                    buttons: message.buttons,
-                    message: message.message,
-                    noLink: true,
-                })
-                .then((res) => {
-                    // 当显卡出现崩溃现象时使用该设置禁用显卡加速模式。
-                    if (res.response === 0) {
-                        if (details.type === 'GPU') app.disableHardwareAcceleration();
-                        this.mainWindow.reload();
-                    } else {
-                        this.mainWindow.close();
-                    }
-                });
+        app.on('before-quit', () => {
+            this.willQuitApp = true;
         });
 
-        app.on('activate', () => {
-            if (BrowserWindow.getAllWindows().length === 0) {
-                this.createMainWindow();
+        this.mainWindow.on('close', (event) => {
+            if(this.willQuitApp) {
+                this.mainWindow = null;
+                app.quit();
+            } else {
+                event.preventDefault(); // 阻止默认关闭行为
+                this.mainWindow.hide(); // 隐藏窗口
             }
         });
-
+        // 在窗口关闭时销毁 mainWindow 对象
         this.mainWindow.on('closed', () => {
             this.mainWindow = null;
+        });
+
+        this.setTray();
+    }
+
+    setTray() {
+        const isDev = process.env.NODE_ENV === 'development';
+        const baseDir = isDev ? path.resolve(__dirname, '../../../src') : __dirname;
+        const tray = new Tray(path.join(baseDir, 'renderer/assets/icons/logo/icon.png'));
+
+        const contextMenu = Menu.buildFromTemplate([
+            {
+                label: '退出',
+                click: () => {
+                    this.mainWindow.destroy(); // 销毁窗口，而不是隐藏
+                    app.quit();
+                },
+            },
+        ]);
+
+        tray.setToolTip('日程管理');
+
+        // 当点击托盘图标时，显示或隐藏窗口
+        tray.on('click', () => {
+            if (this.mainWindow.isVisible()) {
+                this.mainWindow.hide();
+            } else {
+                this.mainWindow.show();
+            }
+        });
+        tray.on('right-click', () => {
+            tray.popUpContextMenu(contextMenu);
         });
     }
 

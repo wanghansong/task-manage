@@ -1,4 +1,4 @@
-export const UseStartupChart = true;
+export const UseStartupChart = false;
 export const IsUseSysTitle = false;
 export const BuiltInServerPort = 25565;
 export const hotPublishUrl =
