@@ -14,7 +14,7 @@ function onAppReady () {
         session.defaultSession.loadExtension(VUEJS3_DEVTOOLS, {
             allowFileAccess: true,
         });
-        console.log('已安装: vue-devtools');
+        // console.log('已安装: vue-devtools');
     }
 }
 
@@ -129,13 +129,13 @@ app.on('window-all-closed', () => {
     app.quit();
 });
 app.on('browser-window-created', () => {
-    console.log('window-created');
+    // console.log('window-created');
 });
 
 if (process.defaultApp) {
     if (process.argv.length >= 2) {
         app.removeAsDefaultProtocolClient('electron-vue-template');
-        console.log('由于框架特殊性开发环境下无法使用');
+        // console.log('由于框架特殊性开发环境下无法使用');
     }
 } else {
     app.setAsDefaultProtocolClient('electron-vue-template');

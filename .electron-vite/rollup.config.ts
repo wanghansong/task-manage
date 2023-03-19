@@ -1,5 +1,6 @@
 import path from "path";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
+import copy from 'rollup-plugin-copy';
 import { builtinModules } from "module";
 import commonjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
@@ -32,6 +33,11 @@ export default (env = "production", type = "main") => {
       sourcemap: false,
     },
     plugins: [
+        copy({
+            targets: [
+                { src: 'static', dest: 'dist/electron' },
+            ],
+        }),
       replace({
         preventAssignment: true,
         "process.env.userConfig": config ? JSON.stringify(config) : "{}",

@@ -98,9 +98,7 @@ class MainInit {
     }
 
     setTray() {
-        const isDev = process.env.NODE_ENV === 'development';
-        const baseDir = isDev ? path.resolve(__dirname, '../../../src') : __dirname;
-        const tray = new Tray(path.join(baseDir, 'renderer/assets/icons/logo/icon.png'));
+        const tray = new Tray(path.resolve(process.env.__packedBasePath, 'static/icon/icon.png'));
 
         const contextMenu = Menu.buildFromTemplate([
             {

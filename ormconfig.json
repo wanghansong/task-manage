@@ -1,0 +1,16 @@
+{
+    "type": "sqlite",
+    "database": "src/main/database/db-file/db-file.sqlite3",
+    "synchronize": true,
+    "logging": false,
+    "entities": [
+      "src/main/entities/**/*.ts"
+    ],
+    "migrations": [
+      "src/main/migration/**/*.ts"
+    ],
+    "subscribers": [
+      "src/main/subscriber/**/*.ts"
+    ]
+  }
+  

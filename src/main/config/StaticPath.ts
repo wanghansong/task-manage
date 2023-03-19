@@ -7,6 +7,7 @@ const isDev = process.env.NODE_ENV === 'development';
 class StaticPath {
     constructor() {
         const basePath = isDev ? join(__dirname, '..', '..', '..') : join(app.getAppPath(), '..', '..');
+        this.__packedBasePath = join(__dirname, '../');
         this.__updateFolder = join(basePath, `${config.HotUpdateFolder}`);
         if (isDev) {
             this.__static = join(basePath, 'static');
@@ -18,6 +19,10 @@ class StaticPath {
             this.__common = basePath;
         }
     }
+    /**
+    * 打包后运行根目录
+    */
+    __packedBasePath: string;
     /**
    * 静态文件路径 渲染进程目录下
    *

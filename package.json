@@ -29,6 +29,7 @@
     "express": "^4.18.2",
     "fecha": "^4.2.3",
     "glob": "^9.1.2",
+    "rollup-plugin-copy": "^3.4.0",
     "semver": "^7.3.8"
   },
   "devDependencies": {
@@ -54,6 +55,7 @@
     "electron": "22.1.0",
     "electron-builder": "^23.6.0",
     "electron-devtools-vendor": "^1.2.0",
+    "electron-rebuild": "^3.2.9",
     "electron_updater_node_cli": "^0.2.0",
     "electron_updater_node_core": "^0.2.0",
     "element-plus": "^2.2.32",
@@ -74,7 +76,9 @@
     "rollup-plugin-esbuild": "^5.0.0",
     "rollup-plugin-obfuscator": "^1.0.2",
     "sass": "^1.58.3",
+    "sqlite3": "^5.1.6",
     "tslib": "^2.5.0",
+    "typeorm": "^0.3.12",
     "typescript": "*",
     "unocss": "^0.50.5",
     "vite": "^4.1.4",
