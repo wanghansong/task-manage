@@ -3,12 +3,18 @@
 import { app, session, dialog } from 'electron';
 import InitWindow from './services/windowManager';
 import DisableButton from './config/DisableButton';
+import Database from './database';
+import Server from '@main/server';
 
 const windowInstance = new InitWindow();
+
 
 function onAppReady () {
     windowInstance.initWindow();
     DisableButton.Disablef12();
+    const db = new Database();
+    Server.StatrServer();
+            
     if (process.env.NODE_ENV === 'development') {
         const { VUEJS3_DEVTOOLS } = require('electron-devtools-vendor');
         session.defaultSession.loadExtension(VUEJS3_DEVTOOLS, {

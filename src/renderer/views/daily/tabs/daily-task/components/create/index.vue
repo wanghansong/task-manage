@@ -38,7 +38,7 @@ import { ref } from 'vue';
 const formModel = ref({
     title: '', // 标题
     tags: [], // 标签
-    okr: [], // 所属OKR
+    belongToOkr: [], // 所属OKR
     planTime: [], // 计划时间
     status: '', // 状态: todo doing done
 });
